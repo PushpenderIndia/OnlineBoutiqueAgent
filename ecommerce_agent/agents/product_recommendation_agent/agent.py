@@ -134,23 +134,54 @@ def recommend_products(user_preferences: str, current_product_id: Optional[str] 
 
         # Recommend based on user preferences
         preference_keywords = user_preferences_lower.split()
+
+        # Extract price constraint if mentioned
+        max_price = None
+        if "under" in user_preferences_lower and "$" in user_preferences_lower:
+            import re
+            price_match = re.search(r'under\s*\$?(\d+\.?\d*)', user_preferences_lower)
+            if price_match:
+                max_price = float(price_match.group(1))
+
         for product in products:
-            if any(keyword in product["name"].lower() for keyword in preference_keywords):
+            # Check if product matches preferences
+            matches_preference = any(keyword in product["name"].lower() for keyword in preference_keywords)
+
+            # Check price constraint
+            meets_price_constraint = True
+            if max_price is not None:
+                try:
+                    product_price = float(product["price"].replace("$", ""))
+                    meets_price_constraint = product_price <= max_price
+                except:
+                    meets_price_constraint = True  # If price parsing fails, include the product
+
+            if matches_preference and meets_price_constraint:
                 if not any(r["id"] == product["id"] for r in recommendations):
                     recommendations.append({
                         **product,
                         "reason": f"Matches your interest in {user_preferences}"
                     })
 
-        # If no specific matches, recommend popular items
+        # If no specific matches, recommend popular items within price constraints
         if not recommendations:
             popular_items = ["Sunglasses", "Watch", "Tank Top", "Mug"]
             for product in products:
                 if any(item.lower() in product["name"].lower() for item in popular_items):
-                    recommendations.append({
-                        **product,
-                        "reason": "Popular item"
-                    })
+                    # Check price constraint for popular items too
+                    meets_price_constraint = True
+                    if max_price is not None:
+                        try:
+                            product_price = float(product["price"].replace("$", ""))
+                            meets_price_constraint = product_price <= max_price
+                        except:
+                            meets_price_constraint = True
+
+                    if meets_price_constraint:
+                        recommendations.append({
+                            **product,
+                            "reason": "Popular item within your budget"
+                        })
 
         # Sort by category and price for better presentation
         recommendations = sorted(recommendations, key=lambda x: (x["category"], x["price"]))
@@ -201,11 +232,14 @@ product_recommendation_agent = LlmAgent(
     4. Suggesting popular and trending items
 
     When providing recommendations:
-    1. Use recommend_products to generate personalized suggestions
-    2. Consider user's stated preferences (style, budget, category interests)
-    3. Provide reasons for each recommendation
-    4. Group recommendations by category when possible
-    5. Include diverse options across different price ranges
+    1. ALWAYS call recommend_products function first to get actual product data
+    2. ONLY recommend products that are returned by the recommend_products function
+    3. Consider user's stated preferences (style, budget, category interests)
+    4. Use the exact product names, prices, IDs, and URLs from the function results
+    5. Use the exact reasons provided by the function
+    6. Group recommendations by category when possible
+    7. Include diverse options across different price ranges
+    8. NEVER invent or create fake product data
 
     Guidelines:
     - Always explain why you're recommending specific products
@@ -214,24 +248,27 @@ product_recommendation_agent = LlmAgent(
     - Prioritize products that complement user's current interests
     - Include product details like price and category
 
+    IMPORTANT: You MUST use the recommend_products function to get actual product data from the Cymbal Shops website.
+    NEVER create fake or example product data. Only recommend products that are returned by the recommend_products function.
+
     Response format:
-    "Based on your preferences for [preferences], here are my recommendations:
+    "Based on your preferences for [preferences], here are my recommendations from our current inventory:
 
     **[Category] Items:**
-    1. [Product Name] - [Price]
-       Reason: [Why recommended]
-       Product ID: [ID]
-       URL: [URL]
+    1. [Actual Product Name from function] - [Actual Price from function]
+       Reason: [Actual reason from function]
+       Product ID: [Actual ID from function]
+       URL: [Actual URL from function]
 
-    2. [Product Name] - [Price]
-       Reason: [Why recommended]
-       Product ID: [ID]
-       URL: [URL]
+    2. [Actual Product Name from function] - [Actual Price from function]
+       Reason: [Actual reason from function]
+       Product ID: [Actual ID from function]
+       URL: [Actual URL from function]
 
     **[Another Category] Items:**
-    [Continue with other categories...]
+    [Continue with other categories using ONLY actual product data...]
 
-    These recommendations are tailored to your interests and should complement your style!"
+    These recommendations are from our current product catalog and match your preferences."
 
     Always ask: "Would you like recommendations for any specific category or price range?"
     """,
