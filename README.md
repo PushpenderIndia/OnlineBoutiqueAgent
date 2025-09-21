@@ -44,6 +44,153 @@ graph TB
     class User,CymbalShops,AIServices,PDFLib externalClass
 ```
 
+## 🔧 Agent Details
+
+Each agent has specialized tools and dependencies for their specific functions:
+
+### 🔍 Product Finder Agent
+```mermaid
+graph TB
+    ProductFinder[🔍 Product Finder Agent] --> SearchTool[🔎 search_products]
+    ProductFinder --> DetailTool[📋 get_product_details]
+
+    SearchTool --> BeautifulSoup[🍲 BeautifulSoup4<br/>HTML Parsing]
+    SearchTool --> Requests[📡 Requests<br/>HTTP Client]
+    SearchTool --> CymbalShops[🏪 Cymbal Shops Website]
+
+    DetailTool --> BeautifulSoup
+    DetailTool --> Requests
+    DetailTool --> CymbalShops
+
+    ProductFinder --> MCP[🔌 MCP Integration]
+
+    classDef agentClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef toolClass fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
+    classDef techClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:1px
+    classDef externalClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class ProductFinder agentClass
+    class SearchTool,DetailTool toolClass
+    class BeautifulSoup,Requests,MCP techClass
+    class CymbalShops externalClass
+```
+
+### 💡 Product Recommendation Agent
+```mermaid
+graph TB
+    ProductRec[💡 Product Recommendation Agent] --> AllProductsTool[📦 get_all_products]
+    ProductRec --> RecommendTool[🎯 recommend_products]
+    ProductRec --> CategoryTool[🏷️ get_product_category]
+
+    AllProductsTool --> BeautifulSoup[🍲 BeautifulSoup4<br/>HTML Parsing]
+    AllProductsTool --> Requests[📡 Requests<br/>HTTP Client]
+    AllProductsTool --> CymbalShops[🏪 Cymbal Shops Website]
+
+    RecommendTool --> MLFiltering[🤖 ML-based Filtering<br/>Algorithm]
+    RecommendTool --> ProductData[📊 Product Data<br/>Cached Results]
+
+    CategoryTool --> Classification[🏷️ Classification<br/>Logic]
+
+    classDef agentClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef toolClass fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
+    classDef techClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:1px
+    classDef externalClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class ProductRec agentClass
+    class AllProductsTool,RecommendTool,CategoryTool toolClass
+    class BeautifulSoup,Requests,MLFiltering,ProductData,Classification techClass
+    class CymbalShops externalClass
+```
+
+### 🛒 Order Placement Agent
+```mermaid
+graph TB
+    OrderAgent[🛒 Order Placement Agent] --> CartAddTool[➕ add_to_cart]
+    OrderAgent --> CartRemoveTool[➖ remove_from_cart]
+    OrderAgent --> CartViewTool[👁️ view_cart]
+    OrderAgent --> CheckoutTool[💳 simulate_checkout]
+
+    CartAddTool --> SessionStorage[🔐 Session Storage<br/>InMemorySessionService]
+    CartRemoveTool --> SessionStorage
+    CartViewTool --> SessionStorage
+    CheckoutTool --> SessionStorage
+
+    CheckoutTool --> OrderProcessing[📋 Order Processing<br/>Logic]
+    CheckoutTool --> PaymentSim[💳 Payment Simulation<br/>Mock Gateway]
+
+    classDef agentClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef toolClass fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
+    classDef techClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:1px
+
+    class OrderAgent agentClass
+    class CartAddTool,CartRemoveTool,CartViewTool,CheckoutTool toolClass
+    class SessionStorage,OrderProcessing,PaymentSim techClass
+```
+
+### ✨ Virtual Try-On Agent
+```mermaid
+graph TB
+    VirtualTryon[✨ Virtual Try-On Agent] --> ProcessImageTool[📸 process_user_image]
+    VirtualTryon --> GenerateTryonTool[🎨 generate_tryon_image]
+    VirtualTryon --> StyleRecTool[👔 get_style_recommendations]
+    VirtualTryon --> SaveResultTool[💾 save_tryon_result]
+    VirtualTryon --> DisplayTool[🖼️ display_tryon_result]
+
+    ProcessImageTool --> Pillow[🖼️ Pillow (PIL)<br/>Image Processing]
+    ProcessImageTool --> ImageValidation[✅ Image Validation<br/>Logic]
+
+    GenerateTryonTool --> GeminiVision[🤖 Gemini 2.5 Flash<br/>Image Preview]
+    GenerateTryonTool --> NanoBanano[🍌 Nano Banano API<br/>Virtual Try-On Service]
+
+    StyleRecTool --> StyleAnalysis[👗 Style Analysis<br/>Algorithm]
+
+    SaveResultTool --> ArtifactService[📁 Artifact Service<br/>InMemoryArtifactService]
+    DisplayTool --> ArtifactService
+
+    classDef agentClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef toolClass fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
+    classDef techClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:1px
+    classDef externalClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class VirtualTryon agentClass
+    class ProcessImageTool,GenerateTryonTool,StyleRecTool,SaveResultTool,DisplayTool toolClass
+    class Pillow,ImageValidation,StyleAnalysis,ArtifactService techClass
+    class GeminiVision,NanoBanano externalClass
+```
+
+### 📄 Export Data Agent
+```mermaid
+graph TB
+    ExportAgent[📄 Export Data Agent] --> ExportPDFTool[📋 export_order_to_pdf]
+    ExportAgent --> GeneratePDFTool[📄 generate_order_pdf]
+    ExportAgent --> ValidateDataTool[✅ validate_order_data]
+    ExportAgent --> GetOrderTool[📊 get_order_from_placement_agent]
+    ExportAgent --> SystemReqTool[🔧 get_system_requirements]
+
+    ExportPDFTool --> ReportLab[📊 ReportLab<br/>PDF Generation]
+    ExportPDFTool --> Base64[🔐 Base64<br/>Encoding]
+    ExportPDFTool --> ArtifactService[📁 Artifact Service<br/>InMemoryArtifactService]
+
+    GeneratePDFTool --> ReportLab
+    GeneratePDFTool --> IOBuffer[💾 IO Buffer<br/>Memory Management]
+
+    ValidateDataTool --> DataValidation[✅ Data Validation<br/>Logic]
+
+    GetOrderTool --> OrderPlacementAgent[🛒 Order Placement Agent<br/>Internal API]
+
+    SystemReqTool --> DependencyCheck[🔍 Dependency Check<br/>System Validation]
+
+    classDef agentClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef toolClass fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
+    classDef techClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:1px
+    classDef externalClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class ExportAgent agentClass
+    class ExportPDFTool,GeneratePDFTool,ValidateDataTool,GetOrderTool,SystemReqTool toolClass
+    class ReportLab,Base64,IOBuffer,DataValidation,DependencyCheck,ArtifactService techClass
+    class OrderPlacementAgent externalClass
+```
+
 ### Architecture Overview
 
 The system follows a **hierarchical agent architecture** with specialized agents for different e-commerce functions:
