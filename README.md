@@ -4,86 +4,44 @@ An AI-powered e-commerce assistant system built for the GKE Turns 10 Hackathon. 
 
 ## 🏗️ Architecture
 
-The system consists of four specialized agents orchestrated by a main coordinator:
+The system consists of five specialized agents orchestrated by a main coordinator:
 
 ```mermaid
 graph TB
-    %% User Interface Layer
+    %% User Interface
     User[👤 User] --> UI[🖥️ ADK Web Interface]
     UI --> Runner[🚀 ADK Runner]
 
     %% Main Coordinator
-    Runner --> RootAgent[🏪 Ecommerce Root Agent<br/>Gemini 2.0 Flash]
+    Runner --> RootAgent[🏪 Ecommerce Root Agent]
 
-    %% Agent Orchestration
-    RootAgent --> |Product Search| ProductFinder[🔍 Product Finder Agent<br/>Gemini 2.0 Flash]
-    RootAgent --> |Recommendations & Browse| ProductRec[💡 Product Recommendation Agent<br/>Gemini 2.0 Flash]
-    RootAgent --> |Cart & Orders| OrderAgent[🛒 Order Placement Agent<br/>Gemini 2.0 Flash]
-    RootAgent --> |Virtual Try-On| VirtualTryon[✨ Virtual Try-On Agent<br/>Gemini 2.0 Flash]
+    %% Specialized Agents
+    RootAgent --> ProductFinder[🔍 Product Finder<br/>Search & Details]
+    RootAgent --> ProductRec[💡 Recommendations<br/>Browse & Suggest]
+    RootAgent --> OrderAgent[🛒 Order Management<br/>Cart & Checkout]
+    RootAgent --> VirtualTryon[✨ Virtual Try-On<br/>AI Image Generation]
+    RootAgent --> ExportAgent[📄 Export Data<br/>PDF Generation]
 
-    %% Product Finder Tools
-    ProductFinder --> SearchTool[🔎 search_products<br/>Web Scraping]
-    ProductFinder --> DetailTool[📋 get_product_details<br/>Web Scraping]
+    %% External Services
+    ProductFinder --> CymbalShops[🏪 Cymbal Shops Website]
+    ProductRec --> CymbalShops
+    VirtualTryon --> AIServices[🤖 AI Image Services]
+    ExportAgent --> PDFLib[📊 PDF Libraries]
 
-    %% Product Recommendation Tools
-    ProductRec --> AllProductsTool[📦 get_all_products<br/>Web Scraping]
-    ProductRec --> RecommendTool[🎯 recommend_products<br/>ML-based Filtering]
-    ProductRec --> CategoryTool[🏷️ get_product_category<br/>Classification]
-
-    %% Order Placement Tools
-    OrderAgent --> CartAddTool[➕ add_to_cart<br/>Session Storage]
-    OrderAgent --> CartRemoveTool[➖ remove_from_cart<br/>Session Storage]
-    OrderAgent --> CartViewTool[👁️ view_cart<br/>Session Storage]
-    OrderAgent --> CheckoutTool[💳 simulate_checkout<br/>Order Processing]
-
-    %% Virtual Try-On Tools
-    VirtualTryon --> ProcessImageTool[📸 process_user_image<br/>Image Validation]
-    VirtualTryon --> GenerateTryonTool[🎨 generate_tryon_image<br/>AI Image Generation]
-    VirtualTryon --> ProductDetailsTool[📄 get_product_details_for_tryon<br/>Web Scraping]
-    VirtualTryon --> SaveResultTool[💾 save_tryon_result<br/>Artifact Storage]
-    VirtualTryon --> StyleRecTool[👔 get_style_recommendations<br/>Style Analysis]
-    VirtualTryon --> DisplayTool[🖼️ display_tryon_result<br/>Artifact Loading]
-
-    %% External Services & APIs
-    SearchTool --> CymbalShops[🏪 Cymbal Shops Website<br/>cymbal-shops.retail.cymbal.dev]
-    DetailTool --> CymbalShops
-    AllProductsTool --> CymbalShops
-    ProductDetailsTool --> CymbalShops
-
-    %% AI & Image Services
-    GenerateTryonTool --> GeminiVision[🤖 Gemini 2.5 Flash Image Preview<br/>AI Image Generation]
-    GenerateTryonTool --> NanoBanano[🍌 Nano Banano API<br/>Virtual Try-On Service]
-
-    %% Data Storage & Services
-    Runner --> ArtifactService[📁 Artifact Service<br/>InMemoryArtifactService]
-    Runner --> SessionService[🔐 Session Service<br/>InMemorySessionService]
-
-    ArtifactService --> |Store/Load Images| VirtualTryon
-    SessionService --> |User Sessions| OrderAgent
-
-    %% MCP Integration
-    ProductFinder --> MCP[🔌 MCP Integration<br/>Model Context Protocol]
-    MCP --> ExternalData[🌐 External Data Sources]
-
-    %% Tool Context
-    ProductFinder --> ToolContext[🛠️ Tool Context]
-    ProductRec --> ToolContext
-    OrderAgent --> ToolContext
-    VirtualTryon --> ToolContext
-
-    ToolContext --> ArtifactService
-    ToolContext --> SessionService
+    %% Data Storage
+    Runner --> Storage[📁 Data Storage<br/>Artifacts & Sessions]
+    OrderAgent --> Storage
+    VirtualTryon --> Storage
+    ExportAgent --> Storage
 
     %% Styling
     classDef agentClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef toolClass fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
     classDef serviceClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
     classDef externalClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
 
-    class RootAgent,ProductFinder,ProductRec,OrderAgent,VirtualTryon agentClass
-    class SearchTool,DetailTool,AllProductsTool,RecommendTool,CategoryTool,CartAddTool,CartRemoveTool,CartViewTool,CheckoutTool,ProcessImageTool,GenerateTryonTool,ProductDetailsTool,SaveResultTool,StyleRecTool,DisplayTool toolClass
-    class ArtifactService,SessionService,ToolContext,Runner,UI serviceClass
-    class CymbalShops,GeminiVision,NanoBanano,MCP,ExternalData externalClass
+    class RootAgent,ProductFinder,ProductRec,OrderAgent,VirtualTryon,ExportAgent agentClass
+    class Runner,UI,Storage serviceClass
+    class User,CymbalShops,AIServices,PDFLib externalClass
 ```
 
 ### Architecture Overview
@@ -124,6 +82,16 @@ The system follows a **hierarchical agent architecture** with specialized agents
   - Style recommendations
   - Product suitability assessment
 - **Tools**: `process_user_image()`, `generate_tryon_image()`, `get_style_recommendations()`
+
+### 📄 Export Data Agent
+- **Purpose**: Export order data and generate professional PDF documents
+- **Features**:
+  - Order confirmation PDF generation
+  - Product details with pricing and quantities
+  - Shipping and payment information
+  - Professional formatting with tables and styling
+  - Artifact storage for download
+- **Tools**: `export_order_to_pdf()`, `validate_order_data()`, `get_order_from_placement_agent()`
 
 ## 🛠️ Technical Details
 
@@ -173,6 +141,19 @@ adk web ecommerce_agent
 - **Recommendations**: ~1-3 seconds
 - **Cart Operations**: ~0.5 seconds
 - **Virtual Try-On**: ~2-5 seconds
+- **PDF Export**: ~1-2 seconds
+
+## 📋 Sample Outputs
+
+### Export Data Agent
+The Export Data Agent generates professional PDF documents for order confirmations. A sample output is available:
+
+📄 **[Sample Order PDF](./sample_exported_order_pdf.pdf)** - Demonstrates the PDF export functionality with:
+- Order confirmation details and tracking information
+- Complete product listings with prices and quantities
+- Shipping address and payment method information
+- Professional formatting with tables and branding
+- Total cost calculations and order summary
 
 ## 📜 License
 
