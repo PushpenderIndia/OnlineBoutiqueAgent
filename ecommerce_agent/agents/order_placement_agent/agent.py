@@ -6,6 +6,9 @@ from typing import Dict, List, Any, Optional
 # Simple in-memory cart storage (in production, this would be in a database)
 user_carts = {}
 
+# Simple in-memory order storage for export purposes
+user_orders = {}
+
 def add_to_cart(user_id: str, product_id: str, quantity: int = 1) -> Dict[str, Any]:
     """
     Add a product to the user's shopping cart.
@@ -204,6 +207,11 @@ def simulate_checkout(user_id: str, shipping_address: str, payment_method: str) 
             "status": "confirmed"
         }
 
+        # Store order for later export
+        if user_id not in user_orders:
+            user_orders[user_id] = []
+        user_orders[user_id].append(order_details)
+
         # Clear the cart after successful checkout
         clear_cart(user_id)
 
@@ -259,6 +267,30 @@ def get_product_info(product_id: str) -> Dict[str, Any]:
             "product_id": product_id
         }
 
+def get_latest_order(user_id: str) -> Dict[str, Any]:
+    """
+    Get the most recent order for a user (for export purposes).
+    """
+    try:
+        if user_id not in user_orders or not user_orders[user_id]:
+            return {
+                "status": "error",
+                "error_message": "No orders found for this user"
+            }
+
+        latest_order = user_orders[user_id][-1]
+        return {
+            "status": "success",
+            "order": latest_order
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error_message": str(e),
+            "user_id": user_id
+        }
+
 order_placement_agent = LlmAgent(
     name="order_placement_agent",
     model="gemini-2.0-flash",
@@ -273,6 +305,8 @@ order_placement_agent = LlmAgent(
     4. Clearing the entire cart using clear_cart(user_id)
     5. Processing checkout and order placement using simulate_checkout(user_id, shipping_address, payment_method)
     6. Getting product information using get_product_info(product_id)
+
+    IMPORTANT: For order export requests (like "export order", "save as PDF", "download receipt"), inform the user that order export functionality is available and suggest they request "export the order" to use the specialized export agent.
 
     IMPORTANT BEHAVIORAL GUIDELINES:
     - Always validate inputs before making function calls
@@ -340,6 +374,6 @@ order_placement_agent = LlmAgent(
 
     Remember: This is a demo environment. Always remind users that no real transactions occur.
     """,
-    tools=[add_to_cart, remove_from_cart, view_cart, clear_cart, simulate_checkout, get_product_info],
+    tools=[add_to_cart, remove_from_cart, view_cart, clear_cart, simulate_checkout, get_product_info, get_latest_order],
     output_key="order_management"
 )

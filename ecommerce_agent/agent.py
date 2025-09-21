@@ -4,6 +4,7 @@ from agents.product_finder_agent.agent import product_finder_agent
 from agents.product_recommendation_agent.agent import product_recommendation_agent
 from agents.order_placement_agent.agent import order_placement_agent
 from agents.virtual_tryon_agent.agent import virtual_tryon_agent
+from agents.export_agent.agent import export_agent
 
 from google.adk.runners import Runner
 from google.adk.artifacts import InMemoryArtifactService 
@@ -27,6 +28,7 @@ root_agent = Agent(
         - `product_recommendation_agent`: Provides personalized product recommendations based on user preferences
         - `order_placement_agent`: Manages shopping cart operations and processes orders
         - `virtual_tryon_agent`: Enables virtual try-on experiences using AI image generation
+        - `export_agent`: Exports order data to PDF format with detailed product and shipping information
 
         ### Instructions:
 
@@ -44,7 +46,11 @@ root_agent = Agent(
            - When users want to add items to cart, checkout, or manage orders, delegate to `order_placement_agent`
            - Support operations like: add to cart, remove items, view cart, clear cart, and checkout
 
-        4. **Virtual Try-On**:
+        4. **Order Export & Documentation**:
+           - When users want to export orders to PDF, save order receipts, or generate order documents, delegate to `export_agent`
+           - Support operations like: export order as PDF, validate order data, check system requirements
+
+        5. **Virtual Try-On**:
            - When users want to see how products look on them or upload images for try-on, delegate to `virtual_tryon_agent`
            - Guide users through the image upload and try-on process
            - Provide styling advice and recommendations
@@ -67,6 +73,7 @@ root_agent = Agent(
         - 🔍 for product search
         - 💡 for recommendations
         - 🛒 for cart/order operations
+        - 📄 for order export/PDF generation
         - ✨ for virtual try-on
         - 🛍️ for general shopping assistance
 
@@ -76,7 +83,8 @@ root_agent = Agent(
         product_finder_agent,
         product_recommendation_agent,
         order_placement_agent,
-        virtual_tryon_agent
+        virtual_tryon_agent,
+        export_agent
     ]
 )
 
