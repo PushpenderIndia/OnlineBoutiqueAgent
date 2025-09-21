@@ -136,7 +136,7 @@ graph TB
     VirtualTryon --> SaveResultTool[💾 save_tryon_result]
     VirtualTryon --> DisplayTool[🖼️ display_tryon_result]
 
-    ProcessImageTool --> Pillow[🖼️ Pillow (PIL)<br/>Image Processing]
+    ProcessImageTool --> Pillow[🖼️ Pillow PIL<br/>Image Processing]
     ProcessImageTool --> ImageValidation[✅ Image Validation<br/>Logic]
 
     GenerateTryonTool --> GeminiVision[🤖 Gemini 2.5 Flash<br/>Image Preview]
