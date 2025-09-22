@@ -244,6 +244,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
 
 ### Technologies Used
 - **Google ADK**: Agent orchestration framework
+- **Google Vertex AI**: For AI Model
 - **BeautifulSoup4**: Web scraping
 - **Pillow**: Image processing
 - **MCP**: Model Context Protocol integration
@@ -317,7 +318,18 @@ Container Registry API (containerregistry.googleapis.com)
 
   - **Logs Writer** (`roles/logging.logWriter`): To allow Cloud Build to write build logs to Cloud Logging.
 
-7. Automated Deployment using `adk deploy gke`: This cli command will `automatically build images`, `write Kubernetes manifests` & push to `Artifact Registry`
+```
+gcloud projects add-iam-policy-binding gke-agent \
+        --member="serviceAccount:859448938040-compute@developer.gserviceaccount.com" \
+        --role="roles/aiplatform.user"
+```
+
+7. Enable Google Vertex AI Service: 
+
+  - 7.1 Visit: `https://console.developers.google.com/apis/api/aiplatform.googleapis.com/overview?project=gke-agent`
+  - 7.2 Click "Enable" to enable the Vertex AI API for your project
+
+8. Automated Deployment using `adk deploy gke`: This cli command will `automatically build images`, `write Kubernetes manifests` & push to `Artifact Registry`
 
   - Command: `adk deploy gke --project gke-agent --cluster_name gke-cluster --region us-central1 --with_ui --log_level info ecommerce_agent`
 
@@ -326,13 +338,13 @@ Container Registry API (containerregistry.googleapis.com)
 
 *NOTE: Wait for the adk deployment on gke, it could take 5-15 minutes*
 
-8. Check POD Status: `kubectl get pods`
+9. Check POD Status: `kubectl get pods`
 
 ![](docs/5_kubectl_status.png)
 
 If `STATUS` is not running and failed, then need to check logs and fix the code or anyother permission issue
 
-9. Find the External IP: Get the public IP address for your agent's service
+10. Find the External IP: Get the public IP address for your agent's service
 
 ```
 kubectl get service
@@ -340,10 +352,21 @@ kubectl get service
 
 ![](docs/6_kubectl_external_ip.png)
 
-10. Visit the deployed service using external IP
+11. Visit the deployed service using external IP
 
 ![](docs/7_deployed_adk.png)
+
+Visit: `http://34.122.40.40/dev-ui?app=ecommerce_agent`
  
+## Live Demo screenshots
+
+![](docs/8_demo.png)
+
+![](docs/9_demo.png)
+
+![](docs/10_demo.png)
+
+![](docs/11_demo.png)
 
 ## 📊 Performance
 

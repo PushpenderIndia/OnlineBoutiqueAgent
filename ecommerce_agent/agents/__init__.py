@@ -2,6 +2,7 @@ from .product_finder_agent.agent import product_finder_agent
 from .product_recommendation_agent.agent import product_recommendation_agent
 from .virtual_tryon_agent.agent import virtual_tryon_agent
 from .order_placement_agent.agent import order_placement_agent
+from .export_agent.agent import export_agent
 
 # Import the root agent using absolute import
 import sys
@@ -18,5 +19,6 @@ __all__ = [
     'product_recommendation_agent',
     'virtual_tryon_agent',
     'order_placement_agent',
+    'export_agent'
     'agent'
 ]
