@@ -383,10 +383,10 @@ Visit: `http://34.122.40.40/dev-ui?app=ecommerce_agent`
 ### Virtual TryOn Result Images
 
 - Angle 1
-<img src="docs/result_1.jpeg" alt="Result 1" width="100px" height="100px">
+<img src="docs/result_1.jpeg" alt="Result 1" width="500px" height="500px">
 
 - Angle 2
-<img src="docs/result_2.jpeg" alt="Result 2" width="100px" height="100px">
+<img src="docs/result_2.jpeg" alt="Result 2" width="500px" height="500px">
 
 ## 📊 Performance
 
