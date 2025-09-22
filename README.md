@@ -392,7 +392,7 @@ Visit: `http://34.122.40.40/dev-ui?app=ecommerce_agent`
 - **Product Search**: ~1-2 seconds
 - **Recommendations**: ~1-3 seconds
 - **Cart Operations**: ~0.5 seconds
-- **Virtual Try-On**: ~2-5 seconds
+- **Virtual Try-On**: ~6-11 seconds
 - **PDF Export**: ~1-2 seconds
 
 ## Sample Outputs
