@@ -289,7 +289,9 @@ adk web ecommerce_agent
 ## Open url: http://127.0.0.1:8000
 ```
 
-### Production (GKE)
+### Deployment on Google Kubernetes Engine
+
+Visit: `http://34.122.40.40/dev-ui?app=ecommerce_agent`
 
 1. Create a kubernetes Cluster from GCP: https://console.cloud.google.com/projectselector2/kubernetes/list/overview?supportedpurview=project&authuser=1
 
