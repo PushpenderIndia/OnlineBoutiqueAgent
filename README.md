@@ -12,7 +12,7 @@ An `AI-powered e-commerce assistant system` built for the GKE Turns 10 Hackathon
 
 [![IMAGE_ALT](https://img.youtube.com/vi/Dx6m6m2qk_8/0.jpg)](https://youtu.be/Dx6m6m2qk_8)
 
-## 🏗️ Architecture
+## Architecture
 
 The system consists of five specialized agents orchestrated by a main coordinator:
 
@@ -54,11 +54,11 @@ graph TB
     class User,CymbalShops,AIServices,PDFLib externalClass
 ```
 
-## 🔧 Agent Details
+## Agent Details
 
 Each agent has specialized tools and dependencies for their specific functions:
 
-### 🔍 Product Finder Agent
+### Product Finder Agent
 ```mermaid
 graph TB
     ProductFinder[🔍 Product Finder Agent] --> SearchTool[🔎 search_products]
@@ -85,7 +85,7 @@ graph TB
     class CymbalShops externalClass
 ```
 
-### 💡 Product Recommendation Agent
+### Product Recommendation Agent
 ```mermaid
 graph TB
     ProductRec[💡 Product Recommendation Agent] --> AllProductsTool[📦 get_all_products]
@@ -112,7 +112,7 @@ graph TB
     class CymbalShops externalClass
 ```
 
-### 🛒 Order Placement Agent
+### Order Placement Agent
 ```mermaid
 graph TB
     OrderAgent[🛒 Order Placement Agent] --> CartAddTool[➕ add_to_cart]
@@ -137,7 +137,7 @@ graph TB
     class SessionStorage,OrderProcessing,PaymentSim techClass
 ```
 
-### ✨ Virtual Try-On Agent
+### Virtual Try-On Agent
 ```mermaid
 graph TB
     VirtualTryon[✨ Virtual Try-On Agent] --> ProcessImageTool[📸 process_user_image]
@@ -168,7 +168,7 @@ graph TB
     class GeminiVision,NanoBanano externalClass
 ```
 
-### 📄 Export Data Agent
+### Export Data Agent
 ```mermaid
 graph TB
     ExportAgent[📄 Export Data Agent] --> ExportPDFTool[📋 export_order_to_pdf]
@@ -205,7 +205,7 @@ graph TB
 
 The system follows a **hierarchical agent architecture** with specialized agents for different e-commerce functions:
 
-### 🔍 Product Finder Agent
+### Product Finder Agent
 - **Purpose**: Search and discover products on the Cymbal Shops website
 - **Features**:
   - Real-time product search using web scraping
@@ -213,7 +213,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
   - MCP integration for external data sources
 - **Tools**: `search_products()`, `get_product_details()`
 
-### 💡 Product Recommendation Agent
+### Product Recommendation Agent
 - **Purpose**: Provide personalized product recommendations
 - **Features**:
   - Category-based recommendations
@@ -222,7 +222,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
   - Style and preference-based filtering
 - **Tools**: `get_all_products()`, `recommend_products()`
 
-### 🛒 Order Placement Agent
+### Order Placement Agent
 - **Purpose**: Manage shopping cart and order processing
 - **Features**:
   - Add/remove items from cart
@@ -231,7 +231,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
   - Order confirmation and tracking
 - **Tools**: `add_to_cart()`, `remove_from_cart()`, `view_cart()`, `simulate_checkout()`
 
-### ✨ Virtual Try-On Agent
+### Virtual Try-On Agent
 - **Purpose**: Enable virtual product try-on using AI image generation
 - **Features**:
   - Image processing and validation
@@ -240,7 +240,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
   - Product suitability assessment
 - **Tools**: `process_user_image()`, `generate_tryon_image()`, `get_style_recommendations()`
 
-### 📄 Export Data Agent
+### Export Data Agent
 - **Purpose**: Export order data and generate professional PDF documents
 - **Features**:
   - Order confirmation PDF generation
@@ -250,7 +250,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
   - Artifact storage for download
 - **Tools**: `export_order_to_pdf()`, `validate_order_data()`, `get_order_from_placement_agent()`
 
-## 🛠️ Technical Details
+## Technical Details
 
 ### Technologies Used
 - **Google ADK**: Agent orchestration framework
@@ -266,7 +266,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
 ### Data Sources
 - **Primary**: Cymbal Shops website (https://cymbal-shops.retail.cymbal.dev/)
 - **Product Data**: Real-time scraping from the live demo site
-- **Cart Storage**: In-memory (production would use database)
+- **Cart Storage**: In-memory
 
 ### AI Models
 - **LLM**: Gemini 2.0 Flash for agent reasoning and orchestration
@@ -292,7 +292,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
 |---------|-------|
 | <img src="docs/result_1.jpeg" alt="Result 1" width="350px" height="350px"> | <img src="docs/result_2.jpeg" alt="Result 2" width="350px" height="350px"> |
 
-## 🚀 Deployment
+## Deployment
 
 ### Local Development
 ```bash
