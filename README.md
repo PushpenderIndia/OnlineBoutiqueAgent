@@ -271,6 +271,22 @@ The system follows a **hierarchical agent architecture** with specialized agents
 ### AI Models
 - **LLM**: Gemini 2.0 Flash for agent reasoning and orchestration
 - **Image Generation**: Gemini 2.5 Flash Image Preview for virtual try-on
+ 
+## Live Demo screenshots
+
+![](docs/8_demo.png)
+
+![](docs/9_demo.png)
+
+![](docs/10_demo.png)
+
+![](docs/11_demo.png)
+
+### Virtual TryOn Result Images
+
+| Angle 1   | Angle 2 |
+|---------|-------|
+| <img src="docs/result_1.jpeg" alt="Result 1" width="350px" height="350px"> | <img src="docs/result_2.jpeg" alt="Result 2" width="350px" height="350px"> |
 
 ## 🚀 Deployment
 
@@ -369,22 +385,6 @@ kubectl get service
 ![](docs/7_deployed_adk.png)
 
 Visit: `http://34.122.40.40/dev-ui?app=ecommerce_agent`
- 
-## Live Demo screenshots
-
-![](docs/8_demo.png)
-
-![](docs/9_demo.png)
-
-![](docs/10_demo.png)
-
-![](docs/11_demo.png)
-
-### Virtual TryOn Result Images
-
-| Angle 1   | Angle 2 |
-|---------|-------|
-| <img src="docs/result_1.jpeg" alt="Result 1" width="350px" height="350px"> | <img src="docs/result_2.jpeg" alt="Result 2" width="350px" height="350px"> |
 
 ## Performance
 
