@@ -271,6 +271,10 @@ The system follows a **hierarchical agent architecture** with specialized agents
 ### AI Models
 - **LLM**: Gemini 2.0 Flash for agent reasoning and orchestration
 - **Image Generation**: Gemini 2.5 Flash Image Preview for virtual try-on
+
+## Live Link
+
+![Demo URL](http://34.122.40.40/dev-ui?app=ecommerce_agent)
  
 ## Live Demo screenshots
 
