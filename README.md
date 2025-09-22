@@ -386,7 +386,7 @@ Visit: `http://34.122.40.40/dev-ui?app=ecommerce_agent`
 |---------|-------|
 | <img src="docs/result_1.jpeg" alt="Result 1" width="350px" height="350px"> | <img src="docs/result_2.jpeg" alt="Result 2" width="350px" height="350px"> |
 
-## 📊 Performance
+## Performance
 
 ### Agent Response Times
 - **Product Search**: ~1-2 seconds
@@ -395,19 +395,19 @@ Visit: `http://34.122.40.40/dev-ui?app=ecommerce_agent`
 - **Virtual Try-On**: ~2-5 seconds
 - **PDF Export**: ~1-2 seconds
 
-## 📋 Sample Outputs
+## Sample Outputs
 
 ### Export Data Agent
 The Export Data Agent generates professional PDF documents for order confirmations. A sample output is available:
 
-📄 **[Sample Order PDF](./sample_exported_order_pdf.pdf)** - Demonstrates the PDF export functionality with:
+**[Sample Order PDF](./sample_exported_order_pdf.pdf)** - Demonstrates the PDF export functionality with:
 - Order confirmation details and tracking information
 - Complete product listings with prices and quantities
 - Shipping address and payment method information
 - Professional formatting with tables and branding
 - Total cost calculations and order summary
 
-## 📜 License
+## License
 
 Built for educational and hackathon purposes. See the original Cymbal Shops license for base application terms.
 
