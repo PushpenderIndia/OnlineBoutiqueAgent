@@ -274,7 +274,7 @@ The system follows a **hierarchical agent architecture** with specialized agents
 
 ## Live Link
 
-![Demo URL](http://34.122.40.40/dev-ui?app=ecommerce_agent)
+[Demo URL](http://34.122.40.40/dev-ui?app=ecommerce_agent)
  
 ## Live Demo screenshots
 
