@@ -276,10 +276,71 @@ adk web ecommerce_agent
 ```
 
 ### Production (GKE)
-1. Build Docker container
-2. Deploy to Google Kubernetes Engine
-3. Configure secrets and environment variables
-4. Set up load balancing and scaling
+
+1. Create a kubernetes Cluster from GCP: https://console.cloud.google.com/projectselector2/kubernetes/list/overview?supportedpurview=project&authuser=1
+
+##### Creating cluster 
+
+![](docs/1_create_kubernetes_cluster.png)
+
+##### Cluster created
+
+![](docs/2_cluster_created.png)
+
+*NOTE: kubernetes Cluster creation could take 5-15 minutes*
+
+We can also validate by running this command: `gcloud container clusters list --project=gke-agent`
+
+2. Install `gcloud` & `kubectl` command line tools in your system
+3. Authenticate gcloud cli: `gcloud auth login`
+4. Set Product ID: `gcloud config set project [YOUR_PROJECT_ID]`
+5. Enabled Google Cloud APIs:
+
+```
+Make sure the following APIs are enabled in your Google Cloud project:
+
+Kubernetes Engine API (container.googleapis.com)
+Cloud Build API (cloudbuild.googleapis.com)
+Container Registry API (containerregistry.googleapis.com)
+```
+
+6. **Required IAM Permissions**: The user or Compute Engine default service account running the command needs, at a minimum, the following roles:
+
+  - **Kubernetes Engine Developer** (`roles/container.developer`): To interact with the GKE cluster.
+
+  - **Storage Object Viewer** (`roles/storage.objectViewer`): To allow Cloud Build to download the source code from the Cloud Storage bucket where gcloud builds submit uploads it.
+
+  - **Artifact Registry Create on Push Writer** (`roles/artifactregistry.createOnPushWriter`): To allow Cloud Build to push the built container image to Artifact Registry. This role also permits the on-the-fly creation of the special gcr.io repository within Artifact Registry if needed on the first push.
+
+  - **Logs Writer** (`roles/logging.logWriter`): To allow Cloud Build to write build logs to Cloud Logging.
+
+7. Automated Deployment using `adk deploy gke`: This cli command will `automatically build images`, `write Kubernetes manifests` & push to `Artifact Registry`
+
+  - Command: `adk deploy gke --project gke-agent --cluster_name gke-cluster --region us-central1 --with_ui --log_level info ecommerce_agent`
+
+![](docs/3_deploy_using_adk_gke.png)
+![](docs/4_deploy_status.png)
+
+*NOTE: Wait for the adk deployment on gke, it could take 5-15 minutes*
+
+8. Check POD Status: `kubectl get pods`
+
+![](docs/5_kubectl_status.png)
+
+If `STATUS` is not running and failed, then need to check logs and fix the code or anyother permission issue
+
+9. Find the External IP: Get the public IP address for your agent's service
+
+```
+kubectl get service
+```
+
+![](docs/6_kubectl_external_ip.png)
+
+10. Visit the deployed service using external IP
+
+![](docs/7_deployed_adk.png)
+ 
 
 ## 📊 Performance
 
