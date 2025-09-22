@@ -243,11 +243,14 @@ The system follows a **hierarchical agent architecture** with specialized agents
 ## 🛠️ Technical Details
 
 ### Technologies Used
-- **Google ADK 1.0.0**: Agent orchestration framework
-- **FastAPI**: Web framework
+- **Google ADK**: Agent orchestration framework
 - **BeautifulSoup4**: Web scraping
 - **Pillow**: Image processing
 - **MCP**: Model Context Protocol integration
+- **GCloud CLI**: For Creating Kubernetes Cluster
+- **kubectl CLI**: For ADK deployment on GKE
+- **Nano Banana**: For Virtual TryOn
+- **ReportLab Python Module**: For Generating Order PDF
 
 ### Data Sources
 - **Primary**: Cymbal Shops website (https://cymbal-shops.retail.cymbal.dev/)
