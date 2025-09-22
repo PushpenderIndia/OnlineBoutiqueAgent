@@ -1,8 +1,8 @@
 # ShopSage - Cymbal Shops E-commerce Agents
 
-```
-From search to try-on to checkout: AI agents for every shopping step. Kubernetes-powered shopping agents with virtual try-on magic
-```
+
+From search to try-on to checkout: Multi-AI agents for every shopping step. Kubernetes-powered shopping agents with virtual try-on magic
+
 
 An AI-powered e-commerce assistant system built for the GKE Turns 10 Hackathon. This project enhances the Cymbal Shops online boutique with intelligent agent capabilities using Google's Agent Development Kit (ADK).
 
